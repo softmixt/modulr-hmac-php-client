@@ -1,0 +1,14 @@
+{
+  "name": "crowdproperty/modulr-hmac-php-client",,
+  "version": "2.4.4",
+  "minimum-stability": "stable",
+  "license": "GPL-3.0",
+  "require": {
+    "php": ">=5.4.0"
+  },
+  "autoload": {
+    "psr-4" : {
+      "CrowdProperty\\ModulrHmacPhpClient" : "src"
+    }
+  }
+}
