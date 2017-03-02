@@ -2,7 +2,6 @@
 namespace CrowdProperty\ModulrHmacPhpClient;
 
 use Carbon\Carbon;
-use Symfony\Component\HttpFoundation\HeaderBag;
 
 class Request
 {
