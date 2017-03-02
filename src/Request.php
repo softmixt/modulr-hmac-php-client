@@ -9,6 +9,7 @@ class Request
     private $client;
     private $nonce;
     private $date;
+    private $headers;
 
     public function __construct()
     {
@@ -16,6 +17,7 @@ class Request
 
     public function addHeaders($headers)
     {
+        $this->headers = $headers;
         return $this;
     }
 
