@@ -2,6 +2,7 @@
 namespace CrowdProperty\ModulrHmacPhpClient;
 
 use Carbon\Carbon;
+use CrowdProperty\ModulrHmacPhpClient\Exception\ConfigException;
 
 class Request
 {
@@ -12,6 +13,16 @@ class Request
 
     public function __construct()
     {
+        $this->checkConfig();
+    }
+
+    public function checkConfig()
+    {
+        if (!\Config::get('modulr.api_key')) {
+            throw new ConfigException('Please set your ModulrFinance API key in the config file');
+        } else if (!\Config::get('modulr.hmac_secret')) {
+            throw new ConfigException('Please set your ModulrFinance HMAC secret in the config file');
+        }
     }
 
     public function addHeaders($headers)
