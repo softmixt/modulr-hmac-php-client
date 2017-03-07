@@ -16,4 +16,7 @@ return [
      */
     'hmac_secret' => env('MODULE_HMAC_SECRET', 'NzAwZmIwMGQ0YTJiNDhkMzZjYzc3YjQ5OGQyYWMzOTI='),
 
+    'enviroment' => 'production',
+
+    'debug' => false
 ];
