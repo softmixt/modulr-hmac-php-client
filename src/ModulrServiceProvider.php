@@ -51,7 +51,7 @@ class ModulrServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(ModulrApi::class, function (Application $app) {
+        $this->app->singleton(ModulrApi::class, function () {
 
             $api = new ModulrApi();
 
