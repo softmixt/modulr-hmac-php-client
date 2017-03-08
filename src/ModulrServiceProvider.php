@@ -53,10 +53,9 @@ class ModulrServiceProvider extends ServiceProvider
     {
         $this->app->singleton(ModulrApi::class, function (Application $app) {
 
-            $config = $app['config']['modulr'];
             $api = new ModulrApi();
 
-            if (!$env = array_get($config, 'environment')) {
+            if (!$env = \Config::get('modulr.environment')) {
                 throw new ConfigException('Modulr environment not configured');
             }
 
