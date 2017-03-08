@@ -2,10 +2,34 @@
 
 namespace CrowdProperty\ModulrHmacPhpClient;
 
+use CrowdProperty\ModulrHmacPhpClient\Exception\ConfigException;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
 class ModulrServiceProvider extends ServiceProvider
 {
+
+    const BASE_URL_SANDBOX = 'https://api-sandbox.modulrfinance.com/api-sandbox';
+    const BASE_URL_PRODUCTION = '';
+
+
+    /**
+     * Indicates if loading of the provider is deferred.
+     *
+     * @var bool
+     */
+    protected $defer = true;
+
+    /**
+     * Determine if this is a Lumen application.
+     *
+     * @return bool
+     */
+    protected function isLumen()
+    {
+        return str_contains($this->app->version(), 'Lumen');
+    }
+
     /**
      * Bootstrap the application services.
      *
@@ -13,13 +37,11 @@ class ModulrServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->publishes([
-            __DIR__.'/Config/modulr.php' => config_path('modulr.php'),
-        ]);
-        \App::bind('modulr', function()
-        {
-            return new Modulr();
-        });
+        if (!$this->isLumen()) {
+            $this->publishes([
+                __DIR__ . '/Config/modulr.php' => config_path('modulr.php'),
+            ], 'config');
+        }
     }
 
     /**
@@ -29,6 +51,44 @@ class ModulrServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->singleton(ModulrApi::class, function (Application $app) {
 
+            $config = $app['config']['modulr'];
+            $api = new ModulrApi();
+
+            if (!$env = array_get($config, 'environment')) {
+                throw new ConfigException('Modulr environment not configured');
+            }
+
+            $api->setApiPath($this->getURL($env));
+
+            return $api;
+
+        });
+    }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return [ModulrApi::class];
+    }
+
+    /**
+     * Return the appropriate API URL based on the environment.
+     *
+     * @param $environment
+     * @return string
+     */
+    public function getURL($environment)
+    {
+        try {
+            return constant('self::BASE_URL_' . strtoupper($environment));
+        } catch (\Exception $e) {
+            throw new InvalidArgumentException('Modulr environment should be one of "sandbox" or "production"');
+        }
     }
 }

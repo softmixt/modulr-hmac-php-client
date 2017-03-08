@@ -29,14 +29,9 @@ class ModulrApi
     private $date;
 
     /**
-     * @var string
+     * @var
      */
-    private $sandboxApiPath = 'https://api-sandbox.modulrfinance.com/api-sandbox';
-
-    /**
-     * @var string
-     */
-    private $apiPath = '';
+    private $apiPath;
 
     /**
      * ModulrApi constructor.
@@ -92,6 +87,17 @@ class ModulrApi
     public function setDate($date)
     {
         $this->date = $date;
+        return $this;
+    }
+
+    /**
+     * Sets date
+     * @param $date
+     * @return $this
+     */
+    public function setApiPath($apiPath)
+    {
+        $this->apiPath = $apiPath;
         return $this;
     }
 
@@ -167,11 +173,7 @@ class ModulrApi
 
         $config->setApiKey('Authorization', $this->authorisationString());
 
-        if (strtolower(\Config::get('modulr.enviroment')) == 'sandbox') {
-            $config->setHost($this->sandboxApiPath);
-        } else {
-            $config->setHost($this->apiPath);
-        }
+        $config->setHost($this->apiPath);
 
         $config->addDefaultHeader('Date', $this->getDate());
         $config->addDefaultHeader('x-mod-nonce', $this->getNonce());
