@@ -9,14 +9,14 @@ return [
     /*
      | API Key
      */
-    'api_key' => env('MODULE_API_KEY', '57502612d1bb2c0001000025fd53850cd9a94861507a5f7cca236882'),
+    'api_key' => env('MODULR_API_KEY'),
 
     /*
      | HMAC secret
      */
-    'hmac_secret' => env('MODULE_HMAC_SECRET', 'NzAwZmIwMGQ0YTJiNDhkMzZjYzc3YjQ5OGQyYWMzOTI='),
+    'hmac_secret' => env('MODULR_HMAC_SECRET'),
 
-    'enviroment' => 'production',
+    'environment' => env('MODULR_ENVIRONMENT', 'sandbox'),
 
-    'debug' => false
+    'debug' => env('MODULR_DEBUG', false)
 ];
