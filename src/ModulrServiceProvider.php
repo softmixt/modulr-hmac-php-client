@@ -3,7 +3,6 @@
 namespace CrowdProperty\ModulrHmacPhpClient;
 
 use CrowdProperty\ModulrHmacPhpClient\Exception\ConfigException;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
 class ModulrServiceProvider extends ServiceProvider
