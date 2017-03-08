@@ -10,7 +10,7 @@ namespace CrowdProperty\ModulrHmacPhpClient\Facades;
 use Illuminate\Support\Facades\Facade;
 
 
-class Modulr extends Facade
+class ModulrApi extends Facade
 {
     /**
      * Get the registered name of the component.
@@ -19,6 +19,6 @@ class Modulr extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'modulr';
+        return 'CrowdProperty\ModulrHmacPhpClient\ModulrApi';
     }
 }
