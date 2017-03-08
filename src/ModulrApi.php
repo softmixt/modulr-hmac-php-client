@@ -2,38 +2,80 @@
 namespace CrowdProperty\ModulrHmacPhpClient;
 
 use Carbon\Carbon;
+use CrowdProperty\ModulrHmacPhpClient\Api\AccountsApi;
+use CrowdProperty\ModulrHmacPhpClient\Api\BeneficiariesApi;
 use CrowdProperty\ModulrHmacPhpClient\Api\CustomersApi;
+use CrowdProperty\ModulrHmacPhpClient\Api\InboundpaymentsApi;
+use CrowdProperty\ModulrHmacPhpClient\Api\NotificationsApi;
+use CrowdProperty\ModulrHmacPhpClient\Api\PaymentsApi;
+use CrowdProperty\ModulrHmacPhpClient\Api\RuleApi;
+use CrowdProperty\ModulrHmacPhpClient\Api\TransactionsApi;
 use CrowdProperty\ModulrHmacPhpClient\Exception\ConfigException;
 
+/**
+ * Class ModulrApi
+ * @package CrowdProperty\ModulrHmacPhpClient
+ */
 class ModulrApi
 {
+    /**
+     * @var
+     */
     private $nonce;
-    private $date;
-    private $headers = [];
 
+    /**
+     * @var
+     */
+    private $date;
+
+    /**
+     * @var string
+     */
     private $sandboxApiPath = 'https://api-sandbox.modulrfinance.com/api-sandbox';
+
+    /**
+     * @var string
+     */
     private $apiPath = '';
 
+    /**
+     * ModulrApi constructor.
+     */
     public function __construct()
     {
         $this->checkConfig();
     }
 
+    /**
+     * Generates new nonce if not set
+     * Returns nonce
+     * @return string
+     */
     public function getNonce()
     {
         if (is_null($this->nonce)) {
-            $this->nonce = str_replace('.', '-', uniqid(null, true));
+            $this->setNonce(str_replace('.', '-', uniqid(null, true)));
         }
 
         return $this->nonce;
     }
 
+    /**
+     * Set nonce
+     * @param $nonce
+     * @return $this
+     */
     public function setNonce($nonce)
     {
         $this->nonce = $nonce;
         return $this;
     }
 
+    /**
+     * Generates date if not set
+     * Returns date
+     * @return mixed
+     */
     public function getDate()
     {
         if (is_null($this->date)) {
@@ -42,12 +84,21 @@ class ModulrApi
         return $this->date;
     }
 
+    /**
+     * Sets date
+     * @param $date
+     * @return $this
+     */
     public function setDate($date)
     {
         $this->date = $date;
         return $this;
     }
 
+    /**
+     * Generates hmac string
+     * @return string
+     */
     protected function hmac()
     {
         $hmacStr = [
@@ -60,6 +111,10 @@ class ModulrApi
         return urlencode(base64_encode(hash_hmac('sha1', $hmacSigniture, \Config::get('modulr.hmac_secret'), true)));
     }
 
+    /**
+     * Creates authorisation array
+     * @return array
+     */
     protected function authorisationArray()
     {
         return [
@@ -70,6 +125,10 @@ class ModulrApi
         ];
     }
 
+    /**
+     * Converts authoristion array into string
+     * @return string
+     */
     protected function authorisationString()
     {
         $authString = null;
@@ -79,6 +138,10 @@ class ModulrApi
         return $authString;
     }
 
+    /**
+     * Checks if modulr config is setup
+     * @throws ConfigException
+     */
     private function checkConfig()
     {
         if (!\Config::get('modulr.api_key')) {
@@ -88,7 +151,12 @@ class ModulrApi
         }
     }
 
-    protected function createClient($nonce)
+    /**
+     *
+     * @param $nonce
+     * @return ApiClient
+     */
+    protected function createClient($nonce = null)
     {
         $config = new Configuration();
 
@@ -117,43 +185,75 @@ class ModulrApi
         return $api;
     }
 
-    public function accounts()
+    /**
+     * @param null $nonce
+     * @return AccountsApi
+     */
+    public function accounts($nonce = null)
     {
-
+        return new AccountsApi($this->createClient($nonce));
     }
 
-    public function benificiaries()
+    /**
+     * @param null $nonce
+     * @return BeneficiariesApi
+     */
+    public function beneficiaries($nonce = null)
     {
-
+        return new BeneficiariesApi($this->createClient($nonce));
     }
 
+    /**
+     * @param null $nonce
+     * @return CustomersApi
+     */
     public function customers($nonce = null)
     {
         return new CustomersApi($this->createClient($nonce));
     }
 
-    public function inboundPayments()
+    /**
+     * @param null $nonce
+     * @return InboundpaymentsApi
+     */
+    public function inboundPayments($nonce = null)
     {
-
+        return new InboundpaymentsApi($this->createClient($nonce));
     }
 
-    public function notifications()
+    /**
+     * @param null $nonce
+     * @return NotificationsApi
+     */
+    public function notifications($nonce = null)
     {
-
+        return new NotificationsApi($this->createClient($nonce));
     }
 
-    public function payments()
+    /**
+     * @param null $nonce
+     * @return PaymentsApi
+     */
+    public function payments($nonce = null)
     {
-
+        return new PaymentsApi($this->createClient($nonce));
     }
 
-    public function rule()
+    /**
+     * @param null $nonce
+     * @return RuleApi
+     */
+    public function rule($nonce = null)
     {
-
+        return new RuleApi($this->createClient($nonce));
     }
 
-    public function transactions()
+    /**
+     * @param null $nonce
+     * @return TransactionsApi
+     */
+    public function transactions($nonce = null)
     {
-
+        return new TransactionsApi($this->createClient($nonce));
     }
 }
