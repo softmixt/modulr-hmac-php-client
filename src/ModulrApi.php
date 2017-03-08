@@ -112,9 +112,9 @@ class ModulrApi
             "x-mod-nonce: " . $this->getNonce()
         ];
 
-        $hmacSigniture = implode("\n", $hmacStr);
+        $hmacSignature = implode("\n", $hmacStr);
 
-        return urlencode(base64_encode(hash_hmac('sha1', $hmacSigniture, \Config::get('modulr.hmac_secret'), true)));
+        return urlencode(base64_encode(hash_hmac('sha1', $hmacSignature, \Config::get('modulr.hmac_secret'), true)));
     }
 
     /**
