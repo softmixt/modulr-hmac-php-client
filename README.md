@@ -34,6 +34,11 @@ You can use CrowdProperty\ModulrHmacPhpClient without laravel.  You can call the
 ```php
 $api = new CrowdProperty\ModulrHmacPhpClient\ModulrApi();
 
+$api->setApiPath('https://api-sandbox.modulrfinance.com/api-sandbox')
+    ->setApiKey('API_KEY')
+    ->setHmacSecret('HMAC_SECRET')
+    ->setDebugMode(true);
+
 ...
 
 $api->customers()->createCustomer((string) $customer);
