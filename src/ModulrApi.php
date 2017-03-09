@@ -74,9 +74,9 @@ class ModulrApi
     public function getDate()
     {
         if (is_null($this->date)) {
-            $this->setDate(Carbon::now()->format('D, d M Y H:i:s \G\M\T'));
+            $this->setDate(Carbon::now());
         }
-        return $this->date;
+        return $this->date->format('D, d M Y H:i:s e');
     }
 
     /**
@@ -84,7 +84,7 @@ class ModulrApi
      * @param $date
      * @return $this
      */
-    public function setDate($date)
+    public function setDate(Carbon $date)
     {
         $this->date = $date;
         return $this;
