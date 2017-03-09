@@ -27,6 +27,19 @@ Publish the package config to your application with the following artisan comman
 php artisan vendor:publish --provider="CrowdProperty\ModulrHmacPhpClient\ModulrServiceProvider" 
 ```
 
+### Other framework/no framework
+
+You can use CrowdProperty\ModulrHmacPhpClient without laravel.  You can call the class `ModulrApi` directly for example:
+
+```php
+$api = new CrowdProperty\ModulrHmacPhpClient\ModulrApi();
+
+...
+
+$api->customers()->createCustomer((string) $customer);
+
+```
+
 ## Configuration
 
 The vedor publish command will generate a `modulr` config file located in your `config` folder.  You may changes these values in your `.env` file.
