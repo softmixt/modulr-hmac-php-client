@@ -34,6 +34,21 @@ class ModulrApi
     private $apiPath;
 
     /**
+     * @var
+     */
+    private $apiKey;
+
+    /**
+     * @var
+     */
+    private $hmacSecret;
+
+    /**
+     * @var
+     */
+    private $debugMode = false;
+
+    /**
      * ModulrApi constructor.
      */
     public function __construct()
@@ -81,7 +96,7 @@ class ModulrApi
 
     /**
      * Sets date
-     * @param $date
+     * @param Carbon $date
      * @return $this
      */
     public function setDate(Carbon $date)
@@ -91,13 +106,46 @@ class ModulrApi
     }
 
     /**
-     * Sets date
-     * @param $date
+     * Sets API Path
+     * @param string $apiPath
      * @return $this
      */
     public function setApiPath($apiPath)
     {
         $this->apiPath = $apiPath;
+        return $this;
+    }
+
+    /**
+     * Sets API Path
+     * @param string $apiKey
+     * @return $this
+     */
+    public function setApiKey($apiKey)
+    {
+        $this->apiKey = $apiKey;
+        return $this;
+    }
+
+    /**
+     * Sets HMAC secret
+     * @param string $hmacSecret
+     * @return $this
+     */
+    public function setHmacSecret($hmacSecret)
+    {
+        $this->hmacSecret = $hmacSecret;
+        return $this;
+    }
+
+    /**
+     * Sets Debug mode
+     * @param string $debug
+     * @return $this
+     */
+    public function setDebugMode($debug)
+    {
+        $this->debugMode = $debug;
         return $this;
     }
 
@@ -114,7 +162,7 @@ class ModulrApi
 
         $hmacSignature = implode("\n", $hmacStr);
 
-        return urlencode(base64_encode(hash_hmac('sha1', $hmacSignature, \Config::get('modulr.hmac_secret'), true)));
+        return urlencode(base64_encode(hash_hmac('sha1', $hmacSignature, $this->hmacSecret, true)));
     }
 
     /**
@@ -124,7 +172,7 @@ class ModulrApi
     protected function authorisationArray()
     {
         return [
-            'Signature keyId' => \Config::get('modulr.api_key'),
+            'Signature keyId' => $this->apiKey,
             'algorithm' => 'hmac-sha1',
             'headers' => 'date x-mod-nonce',
             'signature' => $this->hmac()
@@ -150,9 +198,9 @@ class ModulrApi
      */
     private function checkConfig()
     {
-        if (!\Config::get('modulr.api_key')) {
+        if (!$this->apiKey) {
             throw new ConfigException('Please set your ModulrFinance API key in the config file');
-        } else if (!\Config::get('modulr.hmac_secret')) {
+        } else if (!$this->hmacSecret) {
             throw new ConfigException('Please set your ModulrFinance HMAC secret in the config file');
         }
     }
@@ -178,9 +226,7 @@ class ModulrApi
         $config->addDefaultHeader('Date', $this->getDate());
         $config->addDefaultHeader('x-mod-nonce', $this->getNonce());
 
-        if (\Config::get('modulr.debug')) {
-            $config->setDebug(true);
-        }
+        $config->setDebug($this->debugMode);
 
         $api = new ApiClient($config);
 

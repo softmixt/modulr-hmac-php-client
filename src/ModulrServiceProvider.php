@@ -58,7 +58,10 @@ class ModulrServiceProvider extends ServiceProvider
                 throw new ConfigException('Modulr environment not configured');
             }
 
-            $api->setApiPath($this->getURL($env));
+            $api->setApiPath($this->getURL($env))
+                ->setApiKey(\Config::get('modulr.api_key'))
+                ->setHmacSecret(\Config::get('modulr.hmac_secret'))
+                ->setDebugMode(\Config::get('modulr.debug'));
 
             return $api;
 
