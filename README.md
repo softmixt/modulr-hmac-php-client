@@ -5,7 +5,7 @@ A php client that handles HMAC auth to Modulr API
 
 Installation is done via Composer:
 
-[add composer packagist details]
+composer require crowdproperty/modulr-hmac-php-client
 
 ### Laravel
 
