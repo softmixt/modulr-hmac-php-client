@@ -1,4 +1,5 @@
 <?php
+
 namespace CrowdProperty\ModulrHmacPhpClient;
 
 use Carbon\Carbon;
@@ -13,8 +14,7 @@ use CrowdProperty\ModulrHmacPhpClient\Api\TransactionsApi;
 use CrowdProperty\ModulrHmacPhpClient\Exception\ConfigException;
 
 /**
- * Class ModulrApi
- * @package CrowdProperty\ModulrHmacPhpClient
+ * Class ModulrApi.
  */
 class ModulrApi
 {
@@ -58,7 +58,8 @@ class ModulrApi
 
     /**
      * Generates new nonce if not set
-     * Returns nonce
+     * Returns nonce.
+     *
      * @return string
      */
     public function getNonce()
@@ -71,19 +72,23 @@ class ModulrApi
     }
 
     /**
-     * Set nonce
+     * Set nonce.
+     *
      * @param $nonce
+     *
      * @return $this
      */
     public function setNonce($nonce)
     {
         $this->nonce = $nonce;
+
         return $this;
     }
 
     /**
      * Generates date if not set
-     * Returns date
+     * Returns date.
+     *
      * @return mixed
      */
     public function getDate()
@@ -91,73 +96,90 @@ class ModulrApi
         if (is_null($this->date)) {
             $this->setDate(Carbon::now());
         }
+
         return $this->date->format('D, d M Y H:i:s e');
     }
 
     /**
-     * Sets date
+     * Sets date.
+     *
      * @param Carbon $date
+     *
      * @return $this
      */
     public function setDate(Carbon $date)
     {
         $this->date = $date;
+
         return $this;
     }
 
     /**
-     * Sets API Path
+     * Sets API Path.
+     *
      * @param string $apiPath
+     *
      * @return $this
      */
     public function setApiPath($apiPath)
     {
         $this->apiPath = $apiPath;
+
         return $this;
     }
 
     /**
-     * Sets API Path
+     * Sets API Path.
+     *
      * @param string $apiKey
+     *
      * @return $this
      */
     public function setApiKey($apiKey)
     {
         $this->apiKey = $apiKey;
+
         return $this;
     }
 
     /**
-     * Sets HMAC secret
+     * Sets HMAC secret.
+     *
      * @param string $hmacSecret
+     *
      * @return $this
      */
     public function setHmacSecret($hmacSecret)
     {
         $this->hmacSecret = $hmacSecret;
+
         return $this;
     }
 
     /**
-     * Sets Debug mode
+     * Sets Debug mode.
+     *
      * @param string $debug
+     *
      * @return $this
      */
     public function setDebugMode($debug)
     {
         $this->debugMode = $debug;
+
         return $this;
     }
 
     /**
-     * Generates hmac string
+     * Generates hmac string.
+     *
      * @return string
      */
     protected function hmac()
     {
         $hmacStr = [
-            "date: " . $this->getDate(),
-            "x-mod-nonce: " . $this->getNonce()
+            'date: '.$this->getDate(),
+            'x-mod-nonce: '.$this->getNonce(),
         ];
 
         $hmacSignature = implode("\n", $hmacStr);
@@ -166,48 +188,52 @@ class ModulrApi
     }
 
     /**
-     * Creates authorisation array
+     * Creates authorisation array.
+     *
      * @return array
      */
     protected function authorisationArray()
     {
         return [
             'Signature keyId' => $this->apiKey,
-            'algorithm' => 'hmac-sha1',
-            'headers' => 'date x-mod-nonce',
-            'signature' => $this->hmac()
+            'algorithm'       => 'hmac-sha1',
+            'headers'         => 'date x-mod-nonce',
+            'signature'       => $this->hmac(),
         ];
     }
 
     /**
-     * Converts authoristion array into string
+     * Converts authoristion array into string.
+     *
      * @return string
      */
     protected function authorisationString()
     {
         $authString = null;
-        foreach ( $this->authorisationArray() as $index => $value) {
-            $authString .= (!is_null($authString) ? ',' : '') .  $index . '="' . $value . '"';
+        foreach ($this->authorisationArray() as $index => $value) {
+            $authString .= (!is_null($authString) ? ',' : '').$index.'="'.$value.'"';
         }
+
         return $authString;
     }
 
     /**
-     * Checks if modulr config is setup
+     * Checks if modulr config is setup.
+     *
      * @throws ConfigException
      */
     private function checkConfig()
     {
         if (!$this->apiKey) {
             throw new ConfigException('Please set your ModulrFinance API key in the config file');
-        } else if (!$this->hmacSecret) {
+        } elseif (!$this->hmacSecret) {
             throw new ConfigException('Please set your ModulrFinance HMAC secret in the config file');
         }
     }
 
     /**
-     *
      * @param $nonce
+     *
      * @return ApiClient
      */
     protected function createClient($nonce = null)
@@ -235,6 +261,7 @@ class ModulrApi
 
     /**
      * @param null $nonce
+     *
      * @return AccountsApi
      */
     public function accounts($nonce = null)
@@ -244,6 +271,7 @@ class ModulrApi
 
     /**
      * @param null $nonce
+     *
      * @return BeneficiariesApi
      */
     public function beneficiaries($nonce = null)
@@ -253,6 +281,7 @@ class ModulrApi
 
     /**
      * @param null $nonce
+     *
      * @return CustomersApi
      */
     public function customers($nonce = null)
@@ -262,6 +291,7 @@ class ModulrApi
 
     /**
      * @param null $nonce
+     *
      * @return InboundpaymentsApi
      */
     public function inboundPayments($nonce = null)
@@ -271,6 +301,7 @@ class ModulrApi
 
     /**
      * @param null $nonce
+     *
      * @return NotificationsApi
      */
     public function notifications($nonce = null)
@@ -280,6 +311,7 @@ class ModulrApi
 
     /**
      * @param null $nonce
+     *
      * @return PaymentsApi
      */
     public function payments($nonce = null)
@@ -289,6 +321,7 @@ class ModulrApi
 
     /**
      * @param null $nonce
+     *
      * @return RuleApi
      */
     public function rule($nonce = null)
@@ -298,6 +331,7 @@ class ModulrApi
 
     /**
      * @param null $nonce
+     *
      * @return TransactionsApi
      */
     public function transactions($nonce = null)

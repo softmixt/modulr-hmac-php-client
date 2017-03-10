@@ -7,10 +7,8 @@ use Illuminate\Support\ServiceProvider;
 
 class ModulrServiceProvider extends ServiceProvider
 {
-
     const BASE_URL_SANDBOX = 'https://api-sandbox.modulrfinance.com/api-sandbox';
     const BASE_URL_PRODUCTION = '';
-
 
     /**
      * Indicates if loading of the provider is deferred.
@@ -38,7 +36,7 @@ class ModulrServiceProvider extends ServiceProvider
     {
         if (!$this->isLumen()) {
             $this->publishes([
-                __DIR__ . '/Config/modulr.php' => config_path('modulr.php'),
+                __DIR__.'/Config/modulr.php' => config_path('modulr.php'),
             ], 'config');
         }
     }
@@ -51,7 +49,6 @@ class ModulrServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(ModulrApi::class, function () {
-
             $api = new ModulrApi();
 
             if (!$env = \Config::get('modulr.environment')) {
@@ -64,7 +61,6 @@ class ModulrServiceProvider extends ServiceProvider
                 ->setDebugMode(\Config::get('modulr.debug'));
 
             return $api;
-
         });
     }
 
@@ -82,12 +78,13 @@ class ModulrServiceProvider extends ServiceProvider
      * Return the appropriate API URL based on the environment.
      *
      * @param $environment
+     *
      * @return string
      */
     public function getURL($environment)
     {
         try {
-            return constant('self::BASE_URL_' . strtoupper($environment));
+            return constant('self::BASE_URL_'.strtoupper($environment));
         } catch (\Exception $e) {
             throw new InvalidArgumentException('Modulr environment should be one of "sandbox" or "production"');
         }

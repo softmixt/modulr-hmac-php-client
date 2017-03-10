@@ -1,4 +1,7 @@
 <?php
+
 namespace CrowdProperty\ModulrHmacPhpClient\Exception;
 
-interface ModulrException {}
+interface ModulrException
+{
+}
