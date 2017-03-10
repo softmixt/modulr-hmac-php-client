@@ -3,12 +3,12 @@
  * Created by PhpStorm.
  * User: stewartmcintosh
  * Date: 01/03/2017
- * Time: 11:27
+ * Time: 11:27.
  */
 
 namespace CrowdProperty\ModulrHmacPhpClient\Facades;
-use Illuminate\Support\Facades\Facade;
 
+use Illuminate\Support\Facades\Facade;
 
 class ModulrApi extends Facade
 {

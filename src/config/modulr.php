@@ -18,5 +18,5 @@ return [
 
     'environment' => env('MODULR_ENVIRONMENT', 'sandbox'),
 
-    'debug' => env('MODULR_DEBUG', false)
+    'debug' => env('MODULR_DEBUG', false),
 ];

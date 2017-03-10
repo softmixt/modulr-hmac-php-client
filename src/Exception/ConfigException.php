@@ -1,5 +1,7 @@
 <?php
+
 namespace CrowdProperty\ModulrHmacPhpClient\Exception;
 
-
-class ConfigException extends \Exception implements ModulrException {}
+class ConfigException extends \Exception implements ModulrException
+{
+}
