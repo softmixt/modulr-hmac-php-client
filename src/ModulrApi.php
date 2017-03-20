@@ -53,7 +53,6 @@ class ModulrApi
      */
     public function __construct()
     {
-        $this->checkConfig();
     }
 
     /**
@@ -238,6 +237,7 @@ class ModulrApi
      */
     protected function createClient($nonce = null)
     {
+        $this->checkConfig();
         $config = new Configuration();
 
         if (!empty($nonce)) {
