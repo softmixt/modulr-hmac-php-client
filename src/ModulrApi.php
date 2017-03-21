@@ -240,8 +240,9 @@ class ModulrApi
         $this->checkConfig();
         $config = new Configuration();
 
+        $this->setNonce($nonce);
+
         if (!empty($nonce)) {
-            $this->setNonce($nonce);
             $config->addDefaultHeader('x-mod-retry', true);
         }
 
