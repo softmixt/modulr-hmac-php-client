@@ -194,7 +194,7 @@ class WebHookRequest implements ArrayAccess
             $invalid_properties[] = "invalid value for 'url', the character length must be bigger than or equal to 12.";
         }
 
-        if (!preg_match('/^(?i)(https://)([\\w\\.-]+)\\.([a-z\\.]{2,10})([\\w\\./-])*_/', $this->container['url'])) {
+        if (!preg_match('/^(?i)(https:\/\/)([\\w\\.\-]+)\\.([a-z\\.]{2,10})([\\w\\.\/\-])*_/', $this->container['url'])) {
             $invalid_properties[] = "invalid value for 'url', must be conform to the pattern /^(?i)(https://)([\\w\\.-]+)\\.([a-z\\.]{2,10})([\\w\\./-])*_/.";
         }
 
@@ -234,7 +234,7 @@ class WebHookRequest implements ArrayAccess
         if (strlen($this->container['url']) < 12) {
             return false;
         }
-        if (!preg_match('/^(?i)(https://)([\\w\\.-]+)\\.([a-z\\.]{2,10})([\\w\\./-])*_/', $this->container['url'])) {
+        if (!preg_match('/^(?i)(https:\/\/)([\\w\\.\-]+)\\.([a-z\\.]{2,10})([\\w\\.\/\-])*_/', $this->container['url'])) {
             return false;
         }
 
@@ -349,7 +349,7 @@ class WebHookRequest implements ArrayAccess
         if ((strlen($url) < 12)) {
             throw new \InvalidArgumentException('invalid length for $url when calling WebHookRequest., must be bigger than or equal to 12.');
         }
-        if ((!preg_match('/^(?i)(https://)([\\w\\.-]+)\\.([a-z\\.]{2,10})([\\w\\./-])*_/', $url))) {
+        if ((!preg_match('/^(?i)(https:\/\/)([\\w\\.\-]+)\\.([a-z\\.]{2,10})([\\w\\.\/\-])*_/', $url))) {
             throw new \InvalidArgumentException("invalid value for $url when calling WebHookRequest., must conform to the pattern /^(?i)(https://)([\\w\\.-]+)\\.([a-z\\.]{2,10})([\\w\\./-])*_/.");
         }
 
