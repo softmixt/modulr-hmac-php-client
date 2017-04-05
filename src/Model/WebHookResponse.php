@@ -128,6 +128,7 @@ class WebHookResponse implements ArrayAccess
     }
 
     const EVENT_NAME_PAYIN = 'PAYIN';
+    const EVENT_NAME_PAYOUT = 'PAYOUT';
     const STATUS_ACTIVE = 'ACTIVE';
     const STATUS_INACTIVE = 'INACTIVE';
 
@@ -140,6 +141,7 @@ class WebHookResponse implements ArrayAccess
     {
         return [
             self::EVENT_NAME_PAYIN,
+            self::EVENT_NAME_PAYOUT,
         ];
     }
 
@@ -198,7 +200,7 @@ class WebHookResponse implements ArrayAccess
         }
         $allowed_values = ['PAYIN'];
         if (!in_array($this->container['event_name'], $allowed_values)) {
-            $invalid_properties[] = "invalid value for 'event_name', must be one of 'PAYIN'.";
+            $invalid_properties[] = "invalid value for 'event_name', must be one of 'PAYIN', 'PAYOUT'.";
         }
 
         if ($this->container['retry'] === null) {
@@ -324,9 +326,9 @@ class WebHookResponse implements ArrayAccess
      */
     public function setEventName($event_name)
     {
-        $allowed_values = ['PAYIN'];
+        $allowed_values = $this->getEventNameAllowableValues();
         if ((!in_array($event_name, $allowed_values))) {
-            throw new \InvalidArgumentException("Invalid value for 'event_name', must be one of 'PAYIN'");
+            throw new \InvalidArgumentException("Invalid value for 'event_name', must be one of 'PAYIN', 'PAYOUT");
         }
         $this->container['event_name'] = $event_name;
 
