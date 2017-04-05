@@ -206,7 +206,7 @@ class ModulrApi
      *
      * @return string
      */
-    protected function authorisationString()
+    public function authorisationString()
     {
         $authString = null;
         foreach ($this->authorisationArray() as $index => $value) {
