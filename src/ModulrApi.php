@@ -49,6 +49,11 @@ class ModulrApi
     private $debugMode = false;
 
     /**
+     * @var
+     */
+    private $timezone = 'UTC';
+
+    /**
      * ModulrApi constructor.
      */
     public function __construct()
@@ -93,7 +98,7 @@ class ModulrApi
     public function getDate()
     {
         if (is_null($this->date)) {
-            $this->setDate(Carbon::now());
+            $this->setDate(Carbon::now($this->timezone));
         }
 
         return $this->date->format('D, d M Y H:i:s e');
@@ -109,6 +114,20 @@ class ModulrApi
     public function setDate(Carbon $date)
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Sets the timezone.
+     *
+     * @param Carbon $date
+     *
+     * @return $this
+     */
+    public function setTimezone($timezone = 'UTC')
+    {
+        $this->timezone = $timezone;
 
         return $this;
     }
