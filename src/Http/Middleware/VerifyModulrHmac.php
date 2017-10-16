@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace CrowdProperty\ModulrHmacPhpClient\Http\Middleware;
 
 use Carbon\Carbon;
 use Closure;
