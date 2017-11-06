@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use CrowdProperty\ModulrHmacPhpClient\Api\AccountsApi;
 use CrowdProperty\ModulrHmacPhpClient\Api\BeneficiariesApi;
 use CrowdProperty\ModulrHmacPhpClient\Api\CustomersApi;
+use CrowdProperty\ModulrHmacPhpClient\Api\DocumentUploadApi;
 use CrowdProperty\ModulrHmacPhpClient\Api\InboundpaymentsApi;
 use CrowdProperty\ModulrHmacPhpClient\Api\NotificationsApi;
 use CrowdProperty\ModulrHmacPhpClient\Api\PaymentsApi;
@@ -307,6 +308,16 @@ class ModulrApi
     public function customers($nonce = null)
     {
         return new CustomersApi($this->createClient($nonce));
+    }
+
+    /**
+     * @param null $nonce
+     *
+     * @return DocumentUploadApi
+     */
+    public function documents($nonce = null)
+    {
+        return new DocumentUploadApi($this->createClient($nonce));
     }
 
     /**
