@@ -41,7 +41,7 @@ class VerifyModulrHmac
 
         $signatureArray = $this->parseSignature($request->header('Authorization'));
         $client->setApiKey($signatureArray['Signature keyId']);
-        $client->setHmacSecret(md5(env('MODULR_HMAC_SECRET')));
+        $client->setHmacSecret(md5(env('MODULR_HOOK_SECRET')));
         $client->setNonce($request->header('X-Mod-Nonce'));
         $client->setTimezone('GMT');
 
