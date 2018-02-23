@@ -8,7 +8,7 @@ use Illuminate\Support\ServiceProvider;
 class ModulrServiceProvider extends ServiceProvider
 {
     const BASE_URL_SANDBOX = 'https://api-sandbox.modulrfinance.com/api-sandbox';
-    const BASE_URL_PRODUCTION = '';
+    const BASE_URL_PRODUCTION = 'https://api.modulrfinance.com/api/';
 
     /**
      * Indicates if loading of the provider is deferred.
