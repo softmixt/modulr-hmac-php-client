@@ -7,6 +7,8 @@ use Closure;
 use CrowdProperty\ModulrHmacPhpClient\ModulrApi;
 use Illuminate\Support\Facades\Storage;
 use Request;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 
 class VerifyModulrHmac
 {
@@ -47,6 +49,15 @@ class VerifyModulrHmac
 
         if (env('APP_DEBUG')) {
             $client->setDate(new Carbon($request->header('Date')));
+        }
+
+
+        if(env('MODULR_LOG_HEADERS')) {
+            $request->headers->all();
+            $log = new Logger('name');
+            $log->pushHandler(new StreamHandler(storage('logs/modulr/headers.log'), Logger::DEBUG));
+            $log->info($client->authorisationString());
+            $log->info($request->header('Authorization'));
         }
 
         if ($client->authorisationString() != $request->header('Authorization')) {
