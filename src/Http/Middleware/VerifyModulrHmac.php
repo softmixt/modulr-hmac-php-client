@@ -55,7 +55,7 @@ class VerifyModulrHmac
         if(env('MODULR_LOG_HEADERS')) {
             $request->headers->all();
             $log = new Logger('name');
-            $log->pushHandler(new StreamHandler(storage('logs/modulr/headers.log'), Logger::DEBUG));
+            $log->pushHandler(new StreamHandler(storage_path('logs/modulr/headers.log'), Logger::DEBUG));
             $log->info($client->authorisationString());
             $log->info($request->header('Authorization'));
             $log->info(print_r($request->headers->all(), true));
