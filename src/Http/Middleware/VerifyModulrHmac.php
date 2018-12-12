@@ -41,6 +41,11 @@ class VerifyModulrHmac
     {
         $client = new ModulrApi();
 
+        if(env('MODULR_LOG_HEADERS')) {
+            $log = new Logger('name');
+            $log->pushHandler(new StreamHandler(storage_path('logs/modulr/headers.log'), Logger::INFO));
+            $log->info("HEADERS: " . print_r($request->headers->all(), true));
+        }
         $signatureArray = $this->parseSignature($request->header('Authorization'));
         $client->setApiKey($signatureArray['Signature keyId']);
         $client->setHmacSecret(md5(env('MODULR_HOOK_SECRET')));
@@ -51,14 +56,9 @@ class VerifyModulrHmac
             $client->setDate(new Carbon($request->header('Date')));
         }
 
-
         if(env('MODULR_LOG_HEADERS')) {
-            $request->headers->all();
-            $log = new Logger('name');
-            $log->pushHandler(new StreamHandler(storage_path('logs/modulr/headers.log'), Logger::DEBUG));
-            $log->info($client->authorisationString());
-            $log->info($request->header('Authorization'));
-            $log->info(print_r($request->headers->all(), true));
+            $log->info('GENERATED AUTH STRING: ' . $client->authorisationString());
+            $log->info('MODULR AUTH STRING: ' . $request->header('Authorization'));
         }
 
         if ($client->authorisationString() != $request->header('Authorization')) {
@@ -67,4 +67,5 @@ class VerifyModulrHmac
             return $next($request);
         }
     }
+
 }
