@@ -6,3 +6,7 @@
 .idea/misc.xml
 /vendor
 composer.lock
+
+# PHPUnit
+/.phpunit.cache
+.phpunit.result.cache
