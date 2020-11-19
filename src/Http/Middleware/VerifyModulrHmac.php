@@ -51,6 +51,7 @@ class VerifyModulrHmac
         $client->setHmacSecret(md5(env('MODULR_HOOK_SECRET')));
         $client->setNonce($request->header('X-Mod-Nonce'));
         $client->setTimezone('GMT');
+        $client->setDate(Carbon::parse($request->header('Date')));
 
         if(env('MODULR_LOG_HEADERS')) {
             $log->info('GENERATED AUTH STRING: ' . $client->authorisationString());

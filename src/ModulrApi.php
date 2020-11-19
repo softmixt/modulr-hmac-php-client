@@ -98,7 +98,10 @@ class ModulrApi
      */
     public function getDate()
     {
-        $this->setDate(Carbon::now($this->timezone));
+        if (is_null($this->date)) {
+            $this->setDate(Carbon::now($this->timezone));
+        }
+
         return $this->date->format('D, d M Y H:i:s e');
     }
 
