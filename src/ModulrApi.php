@@ -266,6 +266,9 @@ class ModulrApi
             $config->addDefaultHeader('x-mod-retry', true);
         }
 
+        // Refresh date when creating new clients
+        $this->setDate(Carbon::now());
+
         $config->setApiKey('Authorization', $this->authorisationString());
 
         $config->setHost($this->apiPath);
