@@ -4,3 +4,9 @@
 .idea/modulr-hmac-php-client.iml
 .idea/modules.xml
 .idea/misc.xml
+/vendor
+composer.lock
+
+# PHPUnit
+/.phpunit.cache
+.phpunit.result.cache

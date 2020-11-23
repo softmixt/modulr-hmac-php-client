@@ -12,7 +12,12 @@ use Monolog\Handler\StreamHandler;
 
 class VerifyModulrHmac
 {
-
+    /**
+     * Time in seconds we should allow timestamp of incoming requests to differ from server time.
+     *
+     * Requests outside this limit will be rejected. This prevents replay attacks.
+     */
+    protected const DATE_TIME_TOLERANCE = 10;
 
     protected function parseSignature($signature)
     {
@@ -46,11 +51,17 @@ class VerifyModulrHmac
             $log->pushHandler(new StreamHandler(storage_path('logs/modulr/headers.log'), Logger::INFO));
             $log->info("HEADERS: " . print_r($request->headers->all(), true));
         }
+
+        if (Carbon::parse($request->header('Date'))->diffInSeconds() > self::DATE_TIME_TOLERANCE) {
+            \App::abort(401, 'Date value outside expected tolerance');
+        }
+
         $signatureArray = $this->parseSignature($request->header('Authorization'));
         $client->setApiKey($signatureArray['Signature keyId']);
         $client->setHmacSecret(md5(env('MODULR_HOOK_SECRET')));
         $client->setNonce($request->header('X-Mod-Nonce'));
         $client->setTimezone('GMT');
+        $client->setDate(Carbon::parse($request->header('Date')));
 
         if(env('MODULR_LOG_HEADERS')) {
             $log->info('GENERATED AUTH STRING: ' . $client->authorisationString());

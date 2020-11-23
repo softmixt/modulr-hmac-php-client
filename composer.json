@@ -7,9 +7,18 @@
     "nesbot/carbon": "^1.26.3 || ^2.0",
     "monolog/monolog": "1.*"
   },
+  "require-dev": {
+    "phpunit/phpunit": "^8.3",
+    "orchestra/testbench": "^v4.0"
+  },
   "autoload": {
     "psr-4" : {
       "CrowdProperty\\ModulrHmacPhpClient\\" : "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
     }
   }
 }
